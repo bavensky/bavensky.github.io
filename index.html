@@ -1,22 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
-
-  <head>
-   <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap"rel="stylesheet">
-  </head>
-
-  <body>
-    <div id="obniz-debug"></div>
-    <h1>ESP32 Color Picker</h1>
-    <input type="color" value="#000000" id="colorPicker" />
-    <h1 value=colorString></h1>
-
-
-    <script src="script.js"></script>
-
-  </body>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" href="data:,">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.0.4/jscolor.min.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <h1>ESP32 Color Picker</h1>
+            </div>
+            <a class="btn btn-primary btn-lg" href="#" id="change_color" role="button">Change Color</a>
+            <input class="jscolor {onFineChange:'update(this)'}" id="rgb">
+        </div>
+        <h1></h1>
+        <h1></h1>
+        <div class="container">
+            <a class="btn btn-primary btn-lg" href="#" id="button_red" role="button">RED</a>
+            <a class="btn btn-primary btn-lg" href="#" id="button_green" role="button">GREEN</a>
+            <a class="btn btn-primary btn-lg" href="#" id="button_blue" role="button">BLUE</a>
+        </div>
+        
+        <script>function update(picker) {
+            document.getElementById('rgb').innerHTML = Math.round(picker.rgb[0]) + ', ' +  Math.round(picker.rgb[1]) + ', ' + Math.round(picker.rgb[2]);
+            document.getElementById("change_color").href="?r" + Math.round(picker.rgb[0]) + "g" +  Math.round(picker.rgb[1]) + "b" + Math.round(picker.rgb[2]) + "&";}
+            document.getElementById("button_red").href="?red";
+            document.getElementById("button_green").href="?green";
+            document.getElementById("button_blue").href="?blue";
+        
+        </script>
+    </body>
 </html>
