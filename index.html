@@ -9,26 +9,14 @@
     <body>
         <div class="container">
             <div class="row">
-                <h1>ESP32 Color Picker</h1>
+                <h1>i2lab Weather Station</h1>
             </div>
-            <a class="btn btn-primary btn-lg" href="#" id="change_color" role="button">Change Color</a>
-            <input class="jscolor {onFineChange:'update(this)'}" id="rgb">
+            <div class="row">
+                <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/83772/widgets/726260"></iframe>
+            </div>
+            <div class="row">
+                <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/83772/widgets/726313"></iframe>
+            </div>
         </div>
-        <h1></h1>
-        <h1></h1>
-        <div class="container">
-            <a class="btn btn-primary btn-lg" href="#" id="button_red" role="button">RED</a>
-            <a class="btn btn-primary btn-lg" href="#" id="button_green" role="button">GREEN</a>
-            <a class="btn btn-primary btn-lg" href="#" id="button_blue" role="button">BLUE</a>
-        </div>
-        
-        <script>function update(picker) {
-            document.getElementById('rgb').innerHTML = Math.round(picker.rgb[0]) + ', ' +  Math.round(picker.rgb[1]) + ', ' + Math.round(picker.rgb[2]);
-            document.getElementById("change_color").href="?r" + Math.round(picker.rgb[0]) + "g" +  Math.round(picker.rgb[1]) + "b" + Math.round(picker.rgb[2]) + "&";}
-            document.getElementById("button_red").href="?red";
-            document.getElementById("button_green").href="?green";
-            document.getElementById("button_blue").href="?blue";
-        
-        </script>
     </body>
 </html>
