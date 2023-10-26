@@ -2,6 +2,102 @@
 <html>
 <head>
 <style>
+  .circle-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .circle {
+    background-color: lightblue;
+    border-radius: 50%; /* Creates a circular shape */
+    text-align: center;
+    font-size: 16px;
+    display: inline-block;
+    margin: 5px;
+  }
+</style>
+</head>
+<body>
+  <div>
+    <label for="name-input"><h1>Enter a name: </h1></label>
+    <input type="text" id="name-input">
+    <button id="submit-button">Submit</button>
+    <div id="names-list" class="circle-list"></div>
+  </div>
+  <div class="circle-container">
+    <label for="name-input">Enter a name: </label>
+    <input type="text" id="name-input">
+    <button id="submit-button">Submit</button>
+    <div id="names-list" class="circle-list"></div>
+  </div>
+
+  <script>
+    const nameInput = document.getElementById('name-input');
+    const submitButton = document.getElementById('submit-button');
+    const namesList = document.getElementById('names-list');
+
+    // Create an object to store the name and its size
+    const nameSizes = {};
+
+    // Retrieve and display previously entered names and sizes from local storage
+    const storedData = JSON.parse(localStorage.getItem('nameSizes')) || {};
+    Object.keys(storedData).forEach(name => {
+      const size = storedData[name];
+      displayName(name, size);
+      nameSizes[name] = size;
+    });
+
+    submitButton.addEventListener('click', function () {
+      const enteredName = nameInput.value;
+      nameInput.value = ''; // Clear the input field
+
+      // Check if the entered name is already in the list
+      if (nameSizes[enteredName]) {
+        // Remove the previous name and its size
+        const existingCircle = document.getElementById(enteredName);
+        if (existingCircle) {
+          existingCircle.remove();
+        }
+      }
+
+      // Increase the size by 10 pixels and add or update it in the list
+      if (nameSizes[enteredName]) {
+        nameSizes[enteredName] += 10;
+      } else {
+        nameSizes[enteredName] = 50; // Default size
+      }
+
+      localStorage.setItem('nameSizes', JSON.stringify(nameSizes));
+      displayName(enteredName, nameSizes[enteredName]);
+    });
+
+    function displayName(name, size) {
+      const nameCircle = document.createElement('div');
+      nameCircle.classList.add('circle');
+      nameCircle.textContent = name;
+      nameCircle.style.width = size + 'px';
+      nameCircle.style.height = size + 'px';
+      nameCircle.style.lineHeight = size + 'px';
+      nameCircle.id = name;
+      namesList.appendChild(nameCircle);
+    }
+  </script>
+</body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+<style>
+  .circle-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
   .circle {
     width: 50px;
     height: 50px;
@@ -16,26 +112,135 @@
 </style>
 </head>
 <body>
-  <label for="name-input">Enter a name: </label>
-  <input type="text" id="name-input">
-  <button id="submit-button">Submit</button>
-  <div id="names-list"></div>
+  <div>
+    <label for="name-input">Enter a name: </label>
+    <input type="text" id="name-input">
+    <button id="submit-button">Submit</button>
+  </div>
+  <div class="circle-container">
+    <div id="names-list" class="circle-list"></div>
+  </div>
 
   <script>
     const nameInput = document.getElementById('name-input');
     const submitButton = document.getElementById('submit-button');
     const namesList = document.getElementById('names-list');
-    const nameCircles = {}; // Store name circles
-    const nameSizes = {};
-   
+    const nameCircle = document.createElement('div');
+    const nameCounts = {}; // Store name counts
+
+    // Retrieve and display previously entered names from local storage
+    const storedNames = JSON.parse(localStorage.getItem('names')) || [];
+    storedNames.forEach(name => displayName(name));
 
     submitButton.addEventListener('click', function () {
       const enteredName = nameInput.value;
       nameInput.value = ''; // Clear the input field
       
+
+      // Add the entered name to the stored names
+      const storedNames = JSON.parse(localStorage.getItem('names')) || [];
+      // Check if the name is already present and remove it
+      if (nameCircle[enteredName]) {
+       namesList.removeChild(nameCircle[enteredName]);
+      }
+
+      // Check if the name is already present and increment the count
+      if (nameCounts[enteredName]) {
+        nameCounts[enteredName]++;
+      } else {
+        nameCounts[enteredName] = 1;
+      }
+
+      // Create a circular div element to display the name
+      nameCircle.classList.add('circle');
+      nameCircle.textContent = enteredName;
+
+      // Increase the size of the circle if the same name has been entered before
+      if (nameSizes[enteredName]) {
+        nameSizes[enteredName]++;
+        const newSize = 50 + 10 * nameSizes[enteredName]; // Increase size
+        nameCircle.style.width = newSize + 'px';
+        nameCircle.style.height = newSize + 'px';
+        nameCircle.style.lineHeight = newSize + 'px';
+      } else {
+        nameSizes[enteredName] = 1;
+      }
+
+      storedNames.push(enteredName);
+      localStorage.setItem('names', JSON.stringify(storedNames));
+
+      // Display the entered name
+      nameCircle.classList.add('circle');
+      nameCircle.textContent = name;
+      namesList.appendChild(nameCircle);
+      nameCircle[enteredName] = nameCircle;
+    });
+
+  </script>
+</body>
+</html> -->
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+<style>
+  .circle-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .circle {
+    width: 50px;
+    height: 50px;
+    background-color: lightblue;
+    border-radius: 50%; /* Creates a circular shape */
+    text-align: center;
+    line-height: 50px;
+    font-size: 16px;
+    margin: 5px;
+    display: inline-block;
+  }
+</style>
+</head>
+
+<body>
+  <div>
+    <label for="name-input">Enter a name: </label>
+    <input type="text" id="name-input">
+    <button id="submit-button">Submit</button>
+  </div>
+
+  <div class="circle-container">
+    <div id="names-list" class="circle-list"></div>
+  </div>
+
+
+  <script>
+    let cntName;
+
+    const nameInput = document.getElementById('name-input');
+    const submitButton = document.getElementById('submit-button');
+    const namesList = document.getElementById('names-list');
+    const nameCircles = {}; // Store name circles
+    const nameSizes = {};
+    const nameCounts = {}; // Store name counts
+
+    submitButton.addEventListener('click', function () {
+      const enteredName = nameInput.value;
+      nameInput.value = ''; // Clear the input field
+
       // Check if the name is already present and remove it
       if (nameCircles[enteredName]) {
        namesList.removeChild(nameCircles[enteredName]);
+      }
+
+      // Check if the name is already present and increment the count
+      if (nameCounts[enteredName]) {
+        nameCounts[enteredName]++;
+      } else {
+        nameCounts[enteredName] = 1;
       }
 
       // Create a circular div element to display the name
@@ -60,4 +265,4 @@
     });
   </script>
 </body>
-</html>
+</html> -->
