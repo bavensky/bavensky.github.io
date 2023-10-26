@@ -1,34 +1,63 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="icon" href="data:,">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.0.4/jscolor.min.js"></script>
-    </head>
-    <body>
-        <div class="container">
-            <div class="row">
-                <h1>i2lab Weather Station</h1>
-            </div>
-            <div></div>
-            <div></div>
-            <div class="row"><h1>Temperature</h1></div>
-            <div class="row">
-                <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/83772/widgets/726260"></iframe>
-                <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/83772/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=ICT+Coffee+Station+%28Temperature%29&type=spline&xaxis=Date&yaxis=Temp"></iframe>
-            </div>
-            <div class="row"><h1>Humidity</h1></div>
-            <div class="row">
-                <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/83772/widgets/726313"></iframe>
-                <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/83772/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=ICT+Coffee+Station+%28Humidity%29&type=spline&xaxis=Date&yaxis=Humid"></iframe>
-            </div>
-            <div class="row"><h1>Battery</h1></div>
-            <div class="row">
-                <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/83772/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Battery+Percentage&type=step&xaxis=Date&yaxis=Voltage"></iframe>
-            </div>
-        </div>
+<head>
+<style>
+  .circle {
+    width: 50px;
+    height: 50px;
+    background-color: lightblue;
+    border-radius: 50%; /* Creates a circular shape */
+    text-align: center;
+    line-height: 50px;
+    font-size: 16px;
+    margin: 5px;
+    display: inline-block;
+  }
+</style>
+</head>
+<body>
+  <label for="name-input">Enter a name: </label>
+  <input type="text" id="name-input">
+  <button id="submit-button">Submit</button>
+  <div id="names-list"></div>
 
-        
-    </body>
+  <script>
+    const nameInput = document.getElementById('name-input');
+    const submitButton = document.getElementById('submit-button');
+    const namesList = document.getElementById('names-list');
+    const nameCircles = {}; // Store name circles
+    const nameSizes = {};
+   
+
+    submitButton.addEventListener('click', function () {
+      const enteredName = nameInput.value;
+      nameInput.value = ''; // Clear the input field
+      
+      // Check if the name is already present and remove it
+      if (nameCircles[enteredName]) {
+       namesList.removeChild(nameCircles[enteredName]);
+      }
+
+      // Create a circular div element to display the name
+      const nameCircle = document.createElement('div');
+      nameCircle.classList.add('circle');
+      nameCircle.textContent = enteredName;
+
+      // Increase the size of the circle if the same name has been entered before
+      if (nameSizes[enteredName]) {
+        nameSizes[enteredName]++;
+        const newSize = 50 + 10 * nameSizes[enteredName]; // Increase size
+        nameCircle.style.width = newSize + 'px';
+        nameCircle.style.height = newSize + 'px';
+        nameCircle.style.lineHeight = newSize + 'px';
+      } else {
+        nameSizes[enteredName] = 1;
+      }
+
+      // Append the circular div to the names list
+      namesList.appendChild(nameCircle);
+      nameCircles[enteredName] = nameCircle;
+    });
+  </script>
+</body>
 </html>
